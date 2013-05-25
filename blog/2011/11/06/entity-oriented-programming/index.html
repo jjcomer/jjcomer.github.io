@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Entity Oriented Programming - The Blog of Josh Comer</title>
+  <meta name="author" content="Josh Comer">
+
+  
+  <meta name="description" content="A few friends and I have undertaken a game project, and I get to be in charge of the technical side of things. I immediately thought of using Clojure &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="The Blog of Josh Comer" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-372334-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">The Blog of Josh Comer</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jjcomer.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Entity Oriented Programming</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-06T12:02:00-04:00" pubdate data-updated="true">Nov 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>A few friends and I have undertaken a game project, and I get to be in charge of the technical side of things. I immediately thought of using Clojure (since it is only the best language ever), but changed my mind as my main criteria was a easy to use game engine (I&rsquo;m lazy). I ended up choosing to use the <a href="http://slick.cokeandcode.com/">Slick</a> engine which is java-based. To supplement this Slick engine I have decided to use an entity based approach to programming the game. <a href="http://gamadu.com/artemis/">Artemis</a> is an entity framework which was originally designed for use with Slick, but since it has no dependencies, could be used with anything.</p>
+
+<p>The Artemis framework is based on a series of blog posts from <a href="http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/">T=Machine</a>. The <strong>TL;DR</strong> of these blog posts is that an entity system in a gaming environment is very extensible and can be parallelised (the articles revolve around PS3 development, which needs done concurrently to take advantage of the hardware). Whilst I don&rsquo;t have any immediate needs to delve into concurrent game development, this approach has a real functional smell to it (reminiscent to that of fresh baked bread),  so it must be a good thing.</p>
+
+<!--more-->
+
+
+<p>All right lets look at what this really means:</p>
+
+<h3>What is an entity?</h3>
+
+<p>At the heart of things an entity is just a GUID (or UUID) which is stored in a <em>world</em> object. The world is a global, unique (there can be multiple worlds, but they probably shouldn&rsquo;t talk to each other (queue some sort of parallel universe analogy)), repository of entities. Each entity is composed of components.</p>
+
+<h3>What is a component?</h3>
+
+<p>A component represents a set of data which relates to a part of an entity. Components are not to have any logic inside of them, except for getters and setters for their fields. Components would represents the state of the entity, things like:</p>
+
+<ul>
+<li>Transform (this is the x and y co-ordinates of the entity)</li>
+<li>Spacial (this would be the image that represents the entity)</li>
+<li>Inventory</li>
+</ul>
+
+
+<p>Components do not communicate directly with each other, communication/interaction is done using system.</p>
+
+<h3>What is a system?</h3>
+
+<p>The world is composed of entities (which are composed of components) and systems. Systems are responsible for processing entities. An example would be a Collision System, which would process each entity which has a Transform component to see if it collides with another entity in the universe. When processing the entities are treated in a very abstract manner. The System specifies a filter (of components) for the entities it will handle, and then generically processes the result. Logic for how these interactions take place is implemented in the system (for example if a player collides with an enemy then damage should be applied), but if possible this should be implemented in the most generic way possible.</p>
+
+<h3>What happens in the game loop?</h3>
+
+<p>The heartbeat of a game is the game loop. Now using the entity model, during the update and render phases, one only needs to trigger the processing of the appropriate systems and the entities of the world will be updated and drawn.</p>
+
+<p>Now all I have to do is write the game ;)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Josh Comer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-06T12:02:00-04:00" pubdate data-updated="true">Nov 6<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/game-design/'>Game Design</a>, <a class='category' href='/blog/categories/java/'>Java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/" data-via="jjcomer" data-counturl="http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/09/11/trollscript/" title="Previous Post: Trollscript">&laquo; Trollscript</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/01/29/median-finding-and-incanter/" title="Next Post: Median Finding and Incanter">Median Finding and Incanter &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/ordering-columns/">Ordering Columns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/02/clojure-talks/">Clojure Talks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/12/episode-2-drops/">Episode 2 Drops</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/clojure-game-engine/">Clojure Game Engine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/03/the-techsters/">The Techsters</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jjcomer">@jjcomer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jjcomer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/111859646217609840955?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Josh Comer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'joshcomer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/';
+        var disqus_url = 'http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

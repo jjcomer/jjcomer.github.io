@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gnuGo | The Blog of Josh Comer]]></title>
+  <link href="http://jjcomer.github.io/blog/categories/gnugo/atom.xml" rel="self"/>
+  <link href="http://jjcomer.github.io/"/>
+  <updated>2013-05-25T07:35:38-03:00</updated>
+  <id>http://jjcomer.github.io/</id>
+  <author>
+    <name><![CDATA[Josh Comer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Honinbo]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/08/19/honinbo/"/>
+    <updated>2011-08-19T23:00:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/08/19/honinbo</id>
+    <content type="html"><![CDATA[<p>Now that TodoClj is done (unless I come up with some new features), it is time for a new project. A while ago a friend and I started messing around with the game of Go.
+It quickly became apparent that there are no good Go clients out there. The ones that do exist are extremely old, and either do not run on modern hardware, or are almost completely unusable. So the first step in creating a bearable Go client is to make an easy to use wrapper for the gnuGo client. By interfacing with gnuGo, one gets all the rule enforcement and AI for free.</p>
+
+<p>I have decided to name my wrapper after one of the first (<em>founded in 1612</em>) Go houses in Japan, <a href="http://en.wikipedia.org/wiki/Honinbo">Honinbo</a>. This should be a good chance for me to practice some meta-programming as the interface with gnuGo will take place using the Go Text Protocol (GTP).</p>
+
+<p>As always, the source is checked into GitHub <a href="https://github.com/jjcomer/honinbo">here</a></p>
+]]></content>
+  </entry>
+  
+</feed>

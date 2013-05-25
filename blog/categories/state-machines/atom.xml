@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: State Machines | The Blog of Josh Comer]]></title>
+  <link href="http://jjcomer.github.io/blog/categories/state-machines/atom.xml" rel="self"/>
+  <link href="http://jjcomer.github.io/"/>
+  <updated>2013-05-25T07:35:38-03:00</updated>
+  <id>http://jjcomer.github.io/</id>
+  <author>
+    <name><![CDATA[Josh Comer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Now With More State]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/30/now-with-more-state/"/>
+    <updated>2011-07-30T21:44:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/30/now-with-more-state</id>
+    <content type="html"><![CDATA[<p>So I managed to sit down tonight and add state passing to the state machine. It now appears to be time to add support for doing <strong>actual</strong> things.</p>
+
+<p>As I was writing the <em>init</em> function I was questioning what options will truly be required. I may want to cache the file contents in memory, which can be kept in the state hash. We shall see!</p>
+
+<p><div><script src='https://gist.github.com/1116199.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>Hopefully tomorrow I will have some time to sit down and add in at least the create.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[There Has to Be State]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/30/there-has-to-be-state/"/>
+    <updated>2011-07-30T15:33:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/30/there-has-to-be-state</id>
+    <content type="html"><![CDATA[<p>It occurred to me after I posted the prototype state machine that I had missed an important piece, State. I know that state is a naughty word when discussing functional languages, but an application must have a state. The bad taste surrounding state in functional languages is in reference to mutability of variables, as opposed to the application remembering which file it is acting upon.</p>
+
+<p>It should be completely possible to enclose the current state of the application into a parameter for the state machine. Each action method will accept and return the state of the application stored in a hash. I will post a prototype of said functionality later tonight, assuming I don&rsquo;t get too distracted or see a shiny object.</p>
+
+<p>I have also created the first draft of the state machine (in diagram form).
+<img src="/images/TodoStateMachine.png"></p>
+
+<p>On a side note, it is hard to find a good free diagramming tool. After trying out a couple I ended up settling on <a href="http://docs.google.com">Google Docs</a> and the Draw tool. I had pretty much endless storage, could make drawings as large as I wanted, and could export into all sorts of formats.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tail Recursive State Machines]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/28/tail-recursive-state-machines/"/>
+    <updated>2011-07-28T20:21:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/28/tail-recursive-state-machines</id>
+    <content type="html"><![CDATA[<p>I was reading an article the other day which stated that a great method to use when learning a new language is to imitate software that you already use. In my attempt to fully grok Clojure I have decided to start small and imitate <a href="http://todotxt.com/">todo.txt</a></p>
+
+<p>The first hurdle I always face when starting a new language is determining the basic architecture pattern to follow when writing an application. For some reason this is a topic which is not widely discussed or written about. Some languages, such as Objectuve-C,have a prescribed architecture which you are to follow, thereby making my difficulties moot. But clojure and the majority of other languages do not have this benefit. We are left to discover these patterns by ourselves.</p>
+
+<p>Perhaps the intension is that one is supposed to trail and error and determine what works the best for themselves. Maybe the idea is that each application is different enough that there cannot be a default application pattern for a language. Web development seems to alleviate this problem by not dictating the pattern to the language, but instead to the framework with which one constructs their site.</p>
+
+<p>So, in light of this I am attempting to formulate an application pattern which I think will work with my thought patterns. I am intrigued by the concept of creating applications around the state machine model. The following code is a quick prototype I whipped up.</p>
+
+<p><div><script src='https://gist.github.com/1115436.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p> The program loop represents the state machine which is the program. The looping is done with the trampoline command, which allows for tail-recursion optimization. This should be an easily extensible model. If states need to pass parameters, the parameters should be returned by the action function (action functions such as displayMenu) and then enclosed in the returning function. The only thing I am not overly happy with is the potential size of the program loop, but this should be something I can improve upon.</p>
+]]></content>
+  </entry>
+  
+</feed>

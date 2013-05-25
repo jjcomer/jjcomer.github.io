@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Blog of Josh Comer</title>
+  <meta name="author" content="Josh Comer">
+
+  
+  <meta name="description" content="I just pushed my first Clojure library to CloJars called cljcolour. In my attempt to emulate Todo.txt, I needed the ability to colour my terminal &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jjcomer.github.io/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="The Blog of Josh Comer" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-372334-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">The Blog of Josh Comer</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jjcomer.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/08/06/my-first-clojure-library/">My First Clojure Library</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-06T07:56:00-03:00" pubdate data-updated="true">Aug 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I just pushed my first Clojure library to <a href="https://clojars.org/cljcolour">CloJars</a> called <a href="https://github.com/jjcomer/cljcolour">cljcolour</a>. In my attempt to emulate Todo.txt, I needed the ability to colour my terminal output. Apparently there is no built in way to do this (I&rsquo;m not even sure if there is an easy way to do this in Java). A little googling later and I found ANSI escape characters for colouring text, and they are disgusting. With cljcolour it is now easy to add both fore and background colour to your text output.</p>
+
+<p>I have only tested this on my mac, so no guarantees when it comes to windows. I have also noticed that the REPL will only apply one colour (either the fore or the background) to your string. Both colours do work when running your application from the command line.</p>
+
+<h3>Usage</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;Probably the easiest usage is to create painters</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">bee-painter</span> <span class="p">(</span><span class="nf">create-painter</span> <span class="nv">black</span> <span class="nv">yellow</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">bee-painter</span> <span class="s">&quot;Hello World&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;You can also define fore and background combinations</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">bee-colour</span> <span class="p">(</span><span class="nf">create-new-colour</span> <span class="nv">black</span> <span class="nv">yellow</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">bee-painter2</span> <span class="p">(</span><span class="nf">create-painter</span> <span class="nv">bee-colour</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/08/06/my-first-clojure-library/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/08/04/who-needs-an-object-when-you-have-a-map/">Who Needs an Object When You Have a Map?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-04T20:49:00-03:00" pubdate data-updated="true">Aug 4<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had been thinking about the parsing code I initially written for <a href="http://jjcomer.github.com/TodoClj">TodoClj</a> I remembered that I had initially set out to mimics <a href="https://github.com/ginatrapani/todo.txt-cli">Todo.txt</a>, so I have reoriented and now I am parsing the same format accepted by Todo.txt.</p>
+
+<p>File /home/josh/code/octopress/source/downloads/code/Clojure/coreV2.clj could not be found</p>
+
+<p>I feel that I am getting more and more comfortable with using clojure. I have stopped using Eclipse and instead use Sublime Text 2 and the REPL provided by lein for my project.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/08/02/found-some-time-to-file-parse/">Found Some Time to File Parse</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-02T21:22:00-03:00" pubdate data-updated="true">Aug 2<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was able to find some time tonight to do a little programming. The following code snippit will parse the Todo.txt file. I kept the structure of the file down to a minimum.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>T The First Task
+</span><span class='line'>D and The Second Task</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first letter of the line will represent the status of the task (<em>T</em> being still Todo and <em>D</em> being Done). The code will read the entire file in and &ldquo;hackishly&rdquo; convert the line in to a vector. The first item is assumed to be either a <em>T</em> or a <em>D</em> and the remainder of the vector is the description, and is interposed with spaces to be a readable string.
+File /home/josh/code/octopress/source/downloads/code/Clojure/coreV1.clj could not be found</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/31/java-unit-testing/">Java Unit Testing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-31T08:47:00-03:00" pubdate data-updated="true">Jul 31<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was digging around in a project I helped created for my intro Software Engineering class, and came across some useful helper methods I wrote for unit testing.</p>
+
+<p>These methods allow you to call private methods and get/set the values of private class variables. In order to call the private members, I needed to use reflection, which as you can see is horrible in Java. Luckily I was able to write the methods using generics so they can very easily be reused. The downside is that this code will not compile using the standard oracle Java 1.6 (see the <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6302954">bug report</a>). This bug was supposed to be fixed in Java 7, but I haven&rsquo;t tested it yet. In the mean time there is no problem compiling the code using the OpenJDK.</p>
+
+<div><script src='https://gist.github.com/1116726.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/30/now-with-more-state/">Now With More State</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-30T21:44:00-03:00" pubdate data-updated="true">Jul 30<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I managed to sit down tonight and add state passing to the state machine. It now appears to be time to add support for doing <strong>actual</strong> things.</p>
+
+<p>As I was writing the <em>init</em> function I was questioning what options will truly be required. I may want to cache the file contents in memory, which can be kept in the state hash. We shall see!</p>
+
+<div><script src='https://gist.github.com/1116199.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Hopefully tomorrow I will have some time to sit down and add in at least the create.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/30/there-has-to-be-state/">There Has to Be State</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-30T15:33:00-03:00" pubdate data-updated="true">Jul 30<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It occurred to me after I posted the prototype state machine that I had missed an important piece, State. I know that state is a naughty word when discussing functional languages, but an application must have a state. The bad taste surrounding state in functional languages is in reference to mutability of variables, as opposed to the application remembering which file it is acting upon.</p>
+
+<p>It should be completely possible to enclose the current state of the application into a parameter for the state machine. Each action method will accept and return the state of the application stored in a hash. I will post a prototype of said functionality later tonight, assuming I don&rsquo;t get too distracted or see a shiny object.</p>
+
+<p>I have also created the first draft of the state machine (in diagram form).
+<img src="/images/TodoStateMachine.png"></p>
+
+<p>On a side note, it is hard to find a good free diagramming tool. After trying out a couple I ended up settling on <a href="http://docs.google.com">Google Docs</a> and the Draw tool. I had pretty much endless storage, could make drawings as large as I wanted, and could export into all sorts of formats.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/28/tail-recursive-state-machines/">Tail Recursive State Machines</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-28T20:21:00-03:00" pubdate data-updated="true">Jul 28<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was reading an article the other day which stated that a great method to use when learning a new language is to imitate software that you already use. In my attempt to fully grok Clojure I have decided to start small and imitate <a href="http://todotxt.com/">todo.txt</a></p>
+
+<p>The first hurdle I always face when starting a new language is determining the basic architecture pattern to follow when writing an application. For some reason this is a topic which is not widely discussed or written about. Some languages, such as Objectuve-C,have a prescribed architecture which you are to follow, thereby making my difficulties moot. But clojure and the majority of other languages do not have this benefit. We are left to discover these patterns by ourselves.</p>
+
+<p>Perhaps the intension is that one is supposed to trail and error and determine what works the best for themselves. Maybe the idea is that each application is different enough that there cannot be a default application pattern for a language. Web development seems to alleviate this problem by not dictating the pattern to the language, but instead to the framework with which one constructs their site.</p>
+
+<p>So, in light of this I am attempting to formulate an application pattern which I think will work with my thought patterns. I am intrigued by the concept of creating applications around the state machine model. The following code is a quick prototype I whipped up.</p>
+
+<div><script src='https://gist.github.com/1115436.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p> The program loop represents the state machine which is the program. The looping is done with the trampoline command, which allows for tail-recursion optimization. This should be an easily extensible model. If states need to pass parameters, the parameters should be returned by the action function (action functions such as displayMenu) and then enclosed in the returning function. The only thing I am not overly happy with is the potential size of the program loop, but this should be something I can improve upon.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/27/hello-world/">Hello World</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-27T06:57:00-03:00" pubdate data-updated="true">Jul 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>The first post of yet another blog.</h2>
+
+<p>My mid-year resolution is to actively post here, both about things of current interest and about coding. I have become too passive in my voice as a programmer. So bring on the programming and lets see what happens.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/ordering-columns/">Ordering Columns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/02/clojure-talks/">Clojure Talks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/12/episode-2-drops/">Episode 2 Drops</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/clojure-game-engine/">Clojure Game Engine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/03/the-techsters/">The Techsters</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/jjcomer">@jjcomer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jjcomer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/111859646217609840955?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Josh Comer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'joshcomer';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

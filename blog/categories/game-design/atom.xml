@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Game Design | The Blog of Josh Comer]]></title>
+  <link href="http://jjcomer.github.io/blog/categories/game-design/atom.xml" rel="self"/>
+  <link href="http://jjcomer.github.io/"/>
+  <updated>2013-05-25T07:35:38-03:00</updated>
+  <id>http://jjcomer.github.io/</id>
+  <author>
+    <name><![CDATA[Josh Comer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Clojure Game Engine]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/03/24/clojure-game-engine/"/>
+    <updated>2012-03-24T13:17:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/03/24/clojure-game-engine</id>
+    <content type="html"><![CDATA[<p>I recently attended an undergraduate thesis presentation where one of
+the students created a javascript game engine from scratch. This got
+me to thinking, what would a Clojure game engine look like. I have
+played around with other Java gaming engines, such as
+<a href="http://slick.cokeandcode.com/">Slick</a>. Slick is a really easy engine
+to work with and lets you immediately focus on developing the game, not
+contorting the engine to work for your game. Since Slick is so great,
+why not just write a Clojure wrapper for it? The problem rests in
+Slick&rsquo;s heavy dependence on the OOP paradigm. A wrapper would end up
+causing the programmer to &ldquo;fight&rdquo; Clojure at every turn as we sneak
+objects and, even worse, mutability into the engine. My goal is to have a
+game engine which embraces the ideals of Clojure.</p>
+
+<p>The design which I have been building in my head is an entity-oriented
+engine (which I wrote about in a previous
+<a href="/blog/2011/11/06/entity-oriented-programming/">post</a>). A world
+reference will be a bag for all the entities in the game. Entities
+would only contain their state, and their categorizations. For example
+you could have a player entity, and also have an entity for each
+projectile currently alive in the game. An interesting idea would be
+to make each processor of entities a different thread. This would
+impose the problem of not being able to deterministically order their
+execution, but the idea of creating a game based on independent
+modules seems intriguing. My goal is to create a highly concurrent
+gaming engine. A cool resource to check out is Rich Hickey&rsquo;s famous
+<a href="https://gist.github.com/1494094">ant demo</a> which was used to demo
+Clojure&rsquo;s concurrency in the early days of the language. It is pretty mind blowing how much simulation
+is packed into so little code (the whole thing is 300 lines, with
+comments and license).</p>
+
+<p>The rendering and world updating will be done by two (maybe more)
+agents. Clojure&rsquo;s wonderful STM will trivially (maybe easy is the
+better terminology :)) allow these tasks to be
+independent. I haven&rsquo;t yet chosen what the renderer is going to be
+yet, but this will be a 2D engine, so for the minimal amount of effort
+it will probably end up being the
+<a href="http://www.lwjgl.org/">Light Weight Java Game Library</a>, which Slick
+uses underneath. The unfortunate part of this is that LWJGL requires
+the use of native libraries. An alternative option would be to also
+include Swing support, thus making the engine support cross platforms easily. I will
+have to research to see if the Canvas in Swing is performant enough.</p>
+
+<p>This is all just thought development now, but I have the whole summer
+ahead of me. Maybe this will make a good project :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Entity Oriented Programming]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/"/>
+    <updated>2011-11-06T12:02:00-04:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming</id>
+    <content type="html"><![CDATA[<p>A few friends and I have undertaken a game project, and I get to be in charge of the technical side of things. I immediately thought of using Clojure (since it is only the best language ever), but changed my mind as my main criteria was a easy to use game engine (I&rsquo;m lazy). I ended up choosing to use the <a href="http://slick.cokeandcode.com/">Slick</a> engine which is java-based. To supplement this Slick engine I have decided to use an entity based approach to programming the game. <a href="http://gamadu.com/artemis/">Artemis</a> is an entity framework which was originally designed for use with Slick, but since it has no dependencies, could be used with anything.</p>
+
+<p>The Artemis framework is based on a series of blog posts from <a href="http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/">T=Machine</a>. The <strong>TL;DR</strong> of these blog posts is that an entity system in a gaming environment is very extensible and can be parallelised (the articles revolve around PS3 development, which needs done concurrently to take advantage of the hardware). Whilst I don&rsquo;t have any immediate needs to delve into concurrent game development, this approach has a real functional smell to it (reminiscent to that of fresh baked bread),  so it must be a good thing.</p>
+
+<!--more-->
+
+
+<p>All right lets look at what this really means:</p>
+
+<h3>What is an entity?</h3>
+
+<p>At the heart of things an entity is just a GUID (or UUID) which is stored in a <em>world</em> object. The world is a global, unique (there can be multiple worlds, but they probably shouldn&rsquo;t talk to each other (queue some sort of parallel universe analogy)), repository of entities. Each entity is composed of components.</p>
+
+<h3>What is a component?</h3>
+
+<p>A component represents a set of data which relates to a part of an entity. Components are not to have any logic inside of them, except for getters and setters for their fields. Components would represents the state of the entity, things like:</p>
+
+<ul>
+<li>Transform (this is the x and y co-ordinates of the entity)</li>
+<li>Spacial (this would be the image that represents the entity)</li>
+<li>Inventory</li>
+</ul>
+
+
+<p>Components do not communicate directly with each other, communication/interaction is done using system.</p>
+
+<h3>What is a system?</h3>
+
+<p>The world is composed of entities (which are composed of components) and systems. Systems are responsible for processing entities. An example would be a Collision System, which would process each entity which has a Transform component to see if it collides with another entity in the universe. When processing the entities are treated in a very abstract manner. The System specifies a filter (of components) for the entities it will handle, and then generically processes the result. Logic for how these interactions take place is implemented in the system (for example if a player collides with an enemy then damage should be applied), but if possible this should be implemented in the most generic way possible.</p>
+
+<h3>What happens in the game loop?</h3>
+
+<p>The heartbeat of a game is the game loop. Now using the entity model, during the update and render phases, one only needs to trigger the processing of the appropriate systems and the entities of the world will be updated and drawn.</p>
+
+<p>Now all I have to do is write the game ;)</p>
+]]></content>
+  </entry>
+  
+</feed>

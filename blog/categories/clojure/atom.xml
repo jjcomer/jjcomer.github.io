@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Clojure | The Blog of Josh Comer]]></title>
+  <link href="http://jjcomer.github.io/blog/categories/clojure/atom.xml" rel="self"/>
+  <link href="http://jjcomer.github.io/"/>
+  <updated>2013-05-25T07:35:38-03:00</updated>
+  <id>http://jjcomer.github.io/</id>
+  <author>
+    <name><![CDATA[Josh Comer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ordering Columns]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/08/07/ordering-columns/"/>
+    <updated>2012-08-07T21:39:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/08/07/ordering-columns</id>
+    <content type="html"><![CDATA[<p>One of my favourite things about Clojure, is constantly discovering
+new, and usually shorter ways of re-writing code. An example I
+discovered today has to do with maintaining a particular ordering in
+a map. When creating html lists using hiccup one needs to make sure
+the columns of the table all line up. This can be difficult when
+using a map since the ordering of a map is not defined.</p>
+
+<p>Fear no longer, today I discovered <strong>sorted-map-by</strong>. This creates a
+map which maintains an order as defined by a comparator. So here is the easy way I came up with to keep a map in a
+particular ordering:</p>
+
+<p><div><script src='https://gist.github.com/3290950.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clojure Talks]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/08/02/clojure-talks/"/>
+    <updated>2012-08-02T05:53:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/08/02/clojure-talks</id>
+    <content type="html"><![CDATA[<p>It has been awhile since my last post, life has been quite busy (as
+ always). I thought that I should share some of the great Clojure
+ themed talks that I have been consuming in my down time.</p>
+
+<ul>
+<li><p><a href="http://www.infoq.com/presentations/clojure-runa-dynamic-pricing-through-DSLs">Dynamic Pricing through DSLs</a>
+This talk by Amit Rathore takes an great approach to DSLs. His
+company Runa uses a DSL to alleviate the pains of enterprise
+customisation&rsquo;s to their product.</p></li>
+<li><p><a href="http://www.infoq.com/presentations/Why-Prismatic-Goes-Faster-With-Clojure">Why Prismatic Goes Faster With Clojure</a>
+This talk shows that Clojure can be <em>FAST</em>. I wish these libraries
+were open-source so that I could get a look at their inner
+workings.</p></li>
+<li><p><a href="http://vimeo.com/45561411">Reducers &ndash; Rich Hickey</a>
+I saved the best for last. This is the best talk I have watched in
+awhile. Rich does a great job of walking through reducers and
+explaining why they are important. I keep meaning to download the
+Clojure 1.5 beta and try these out for myself. In the Clojure
+programming that I have done it seems that the majority of maps and
+filters are not order dependent and therefore could greatly benefit
+from the use of reducers.</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clojure Game Engine]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/03/24/clojure-game-engine/"/>
+    <updated>2012-03-24T13:17:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/03/24/clojure-game-engine</id>
+    <content type="html"><![CDATA[<p>I recently attended an undergraduate thesis presentation where one of
+the students created a javascript game engine from scratch. This got
+me to thinking, what would a Clojure game engine look like. I have
+played around with other Java gaming engines, such as
+<a href="http://slick.cokeandcode.com/">Slick</a>. Slick is a really easy engine
+to work with and lets you immediately focus on developing the game, not
+contorting the engine to work for your game. Since Slick is so great,
+why not just write a Clojure wrapper for it? The problem rests in
+Slick&rsquo;s heavy dependence on the OOP paradigm. A wrapper would end up
+causing the programmer to &ldquo;fight&rdquo; Clojure at every turn as we sneak
+objects and, even worse, mutability into the engine. My goal is to have a
+game engine which embraces the ideals of Clojure.</p>
+
+<p>The design which I have been building in my head is an entity-oriented
+engine (which I wrote about in a previous
+<a href="/blog/2011/11/06/entity-oriented-programming/">post</a>). A world
+reference will be a bag for all the entities in the game. Entities
+would only contain their state, and their categorizations. For example
+you could have a player entity, and also have an entity for each
+projectile currently alive in the game. An interesting idea would be
+to make each processor of entities a different thread. This would
+impose the problem of not being able to deterministically order their
+execution, but the idea of creating a game based on independent
+modules seems intriguing. My goal is to create a highly concurrent
+gaming engine. A cool resource to check out is Rich Hickey&rsquo;s famous
+<a href="https://gist.github.com/1494094">ant demo</a> which was used to demo
+Clojure&rsquo;s concurrency in the early days of the language. It is pretty mind blowing how much simulation
+is packed into so little code (the whole thing is 300 lines, with
+comments and license).</p>
+
+<p>The rendering and world updating will be done by two (maybe more)
+agents. Clojure&rsquo;s wonderful STM will trivially (maybe easy is the
+better terminology :)) allow these tasks to be
+independent. I haven&rsquo;t yet chosen what the renderer is going to be
+yet, but this will be a 2D engine, so for the minimal amount of effort
+it will probably end up being the
+<a href="http://www.lwjgl.org/">Light Weight Java Game Library</a>, which Slick
+uses underneath. The unfortunate part of this is that LWJGL requires
+the use of native libraries. An alternative option would be to also
+include Swing support, thus making the engine support cross platforms easily. I will
+have to research to see if the Canvas in Swing is performant enough.</p>
+
+<p>This is all just thought development now, but I have the whole summer
+ahead of me. Maybe this will make a good project :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Median Finding and Incanter]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/01/29/median-finding-and-incanter/"/>
+    <updated>2012-01-29T07:33:00-04:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/01/29/median-finding-and-incanter</id>
+    <content type="html"><![CDATA[<p><em>Updated: made a mistake in the random algorithm… left out the random part :) all fixed now and the chart has been updated</em></p>
+
+<p>Last week we were going over some median finding algorithms in class. To be honest I had never thought of this problem before. In class (before the algorithms were revealed to us) I jumped to the naive approach of sorting the list then grabbing the middle. This is <strong>obviously</strong> going to have the complexity of sorting, with best case <em>O(nlogn)</em>.</p>
+
+<p>We were presented with two algorithms, one random (selection by partitioning) and the other deterministic (median of medians). Both end up averaging a complexity of <em>n</em>, but the random algorithm has a worst case of O(n<sup>2</sup>). The funny thing is that the random algorithm massively outperforms the deterministic version. This is always an iterating situation, when the theoretically better solution ends up performing (when implemented) far worse than the theoretically worse solution.</p>
+
+<p>Lets see how much worse the deterministic algorithm performs. I created an implementation of both algorithms:</p>
+
+<p><div><script src='https://gist.github.com/1698459.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>Conveniently both algorithms have the same core, and the only difference between them is how they determine their pivot value. As the name suggests in the random algorithm, the pivot is chosen at random. In the deterministic version, the pivot is chosen to be the median of medians. Finding the median of medians is interesting as the recursions are intertwined, the median finding algorithm is called by the median finding function.</p>
+
+<p>There are also some laziness optimizations sneaking in here as well. In the core, only the &ldquo;less than&rdquo; partition is fully realized. The &ldquo;greater than&rdquo; partition is only calculated when required, which is only when the median exists within.</p>
+
+<p>Alright, so now I got to take my first attempt at using <a href="http://incanter.org/">Incanter</a>, the R-type library for Clojure. Incanter was really easy to use and I found the documentation to be very verbose (in a good way) and well written.</p>
+
+<p>This is the analysis code I whipped up:</p>
+
+<p><div><script src='https://gist.github.com/1698492.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>Which I used to produce the following chart:</p>
+
+<p><img src="/images/MedianGraph.png"></p>
+
+<p>Due to some strange &ldquo;features&rdquo; in Incanter, you have to jump through some hoops to get the groups to label correctly, so I left the legend off the chart. The blue points are the deterministic algorithm&rsquo;s results and the red points are the random algorithm&rsquo;s results. As you can clearly see from the graph, the random algorithm outperformed the deterministic one by at least one metric bunch.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Trollscript]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/09/11/trollscript/"/>
+    <updated>2011-09-11T16:32:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/09/11/trollscript</id>
+    <content type="html"><![CDATA[<p>Well, I haven&rsquo;t been doing much in the way of coding over the last couple weeks, but today that changed. I came across <a href="https://github.com/tombell/trollscript">Tom Bell&rsquo;s ruby implementation</a> of a trollscript interpreter, and figured that the clojure community needs an interpreter too. A couple hours later and I had whipped up my first version of a <a href="https://github.com/jjcomer/trollscript">trollscript interpreter</a>.</p>
+
+<!--more-->
+
+
+<h2>So what is trollscript you might ask&hellip;</h2>
+
+<p>Trollscript is a dialect of brainfuck (and by dialect I mean the symbols have just been swapped). The following is the Hello World example from Tom Bell&rsquo;s site:</p>
+
+<pre><code>Trooloolooloolooloolooloolooloolollooooolooloolooloolooloolooooolooloolooloolooloolooloolooloooooloolooloooooloooloolooloololllllooooloololoooooololooolooloolooloolooloololoolooolooloololooooooloololooooloololooloolooloolooloolooloolooloolooloolooloololooooolooolooloololooollollollollollolllooollollollollollollollollloooooololooooolooll.
+</code></pre>
+
+<p>Which, as expected, produces:</p>
+
+<pre><code>Hello World
+</code></pre>
+
+<p>The language has a 30,000 (this is arbitrary) byte data array which is read and written to in a tape like manner. To make my space usage a little more efficient the data array is implemented as a hash, which will only grow as it is accessed.</p>
+
+<h2>The Commands</h2>
+
+<h3>Delimeters</h3>
+
+<ul>
+<li><strong>Tro</strong> all trollscripts begin with this</li>
+<li><strong>ll.</strong> all trollscripts end with this</li>
+</ul>
+
+
+<h3>Pointer movement</h3>
+
+<ul>
+<li><strong>ooo</strong> increments the data pointer</li>
+<li><strong>ool</strong> decrements the data pointer</li>
+<li><strong>olo</strong> increases the byte at the data pointer by one</li>
+<li><strong>oll</strong> decreases the byte at the data pointer by one</li>
+</ul>
+
+
+<h3>Input/Output</h3>
+
+<ul>
+<li><strong>loo</strong> output the char (byte) at the data pointer</li>
+<li><strong>lol</strong> input one byte and write the value to the byte under the data pointer</li>
+</ul>
+
+
+<h3>Control mechanisms</h3>
+
+<p>I implemented these as memoized functions, so they should be pretty quick.</p>
+
+<ul>
+<li><strong>llo</strong> if the byte under the data pointer is zero, increment the program counter to point to the instruction <em>after</em> the matching <strong>lll</strong></li>
+<li><strong>lll</strong> if the byte under the data pointer is non-zero, decrement the program counter to point to the instruction <em>after</em> the matching <strong>llo</strong></li>
+</ul>
+
+
+<h2>The Code</h2>
+
+<p><div><script src='https://gist.github.com/1210073.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

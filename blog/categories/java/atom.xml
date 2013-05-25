@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | The Blog of Josh Comer]]></title>
+  <link href="http://jjcomer.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://jjcomer.github.io/"/>
+  <updated>2013-05-25T07:35:38-03:00</updated>
+  <id>http://jjcomer.github.io/</id>
+  <author>
+    <name><![CDATA[Josh Comer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Entity Oriented Programming]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/"/>
+    <updated>2011-11-06T12:02:00-04:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming</id>
+    <content type="html"><![CDATA[<p>A few friends and I have undertaken a game project, and I get to be in charge of the technical side of things. I immediately thought of using Clojure (since it is only the best language ever), but changed my mind as my main criteria was a easy to use game engine (I&rsquo;m lazy). I ended up choosing to use the <a href="http://slick.cokeandcode.com/">Slick</a> engine which is java-based. To supplement this Slick engine I have decided to use an entity based approach to programming the game. <a href="http://gamadu.com/artemis/">Artemis</a> is an entity framework which was originally designed for use with Slick, but since it has no dependencies, could be used with anything.</p>
+
+<p>The Artemis framework is based on a series of blog posts from <a href="http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/">T=Machine</a>. The <strong>TL;DR</strong> of these blog posts is that an entity system in a gaming environment is very extensible and can be parallelised (the articles revolve around PS3 development, which needs done concurrently to take advantage of the hardware). Whilst I don&rsquo;t have any immediate needs to delve into concurrent game development, this approach has a real functional smell to it (reminiscent to that of fresh baked bread),  so it must be a good thing.</p>
+
+<!--more-->
+
+
+<p>All right lets look at what this really means:</p>
+
+<h3>What is an entity?</h3>
+
+<p>At the heart of things an entity is just a GUID (or UUID) which is stored in a <em>world</em> object. The world is a global, unique (there can be multiple worlds, but they probably shouldn&rsquo;t talk to each other (queue some sort of parallel universe analogy)), repository of entities. Each entity is composed of components.</p>
+
+<h3>What is a component?</h3>
+
+<p>A component represents a set of data which relates to a part of an entity. Components are not to have any logic inside of them, except for getters and setters for their fields. Components would represents the state of the entity, things like:</p>
+
+<ul>
+<li>Transform (this is the x and y co-ordinates of the entity)</li>
+<li>Spacial (this would be the image that represents the entity)</li>
+<li>Inventory</li>
+</ul>
+
+
+<p>Components do not communicate directly with each other, communication/interaction is done using system.</p>
+
+<h3>What is a system?</h3>
+
+<p>The world is composed of entities (which are composed of components) and systems. Systems are responsible for processing entities. An example would be a Collision System, which would process each entity which has a Transform component to see if it collides with another entity in the universe. When processing the entities are treated in a very abstract manner. The System specifies a filter (of components) for the entities it will handle, and then generically processes the result. Logic for how these interactions take place is implemented in the system (for example if a player collides with an enemy then damage should be applied), but if possible this should be implemented in the most generic way possible.</p>
+
+<h3>What happens in the game loop?</h3>
+
+<p>The heartbeat of a game is the game loop. Now using the entity model, during the update and render phases, one only needs to trigger the processing of the appropriate systems and the entities of the world will be updated and drawn.</p>
+
+<p>Now all I have to do is write the game ;)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java Unit Testing]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/31/java-unit-testing/"/>
+    <updated>2011-07-31T08:47:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/31/java-unit-testing</id>
+    <content type="html"><![CDATA[<p>I was digging around in a project I helped created for my intro Software Engineering class, and came across some useful helper methods I wrote for unit testing.</p>
+
+<p>These methods allow you to call private methods and get/set the values of private class variables. In order to call the private members, I needed to use reflection, which as you can see is horrible in Java. Luckily I was able to write the methods using generics so they can very easily be reused. The downside is that this code will not compile using the standard oracle Java 1.6 (see the <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6302954">bug report</a>). This bug was supposed to be fixed in Java 7, but I haven&rsquo;t tested it yet. In the mean time there is no problem compiling the code using the OpenJDK.</p>
+
+<p><div><script src='https://gist.github.com/1116726.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

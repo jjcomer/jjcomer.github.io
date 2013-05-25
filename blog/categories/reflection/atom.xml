@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Reflection | The Blog of Josh Comer]]></title>
+  <link href="http://jjcomer.github.io/blog/categories/reflection/atom.xml" rel="self"/>
+  <link href="http://jjcomer.github.io/"/>
+  <updated>2013-05-25T07:35:38-03:00</updated>
+  <id>http://jjcomer.github.io/</id>
+  <author>
+    <name><![CDATA[Josh Comer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Java Unit Testing]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/31/java-unit-testing/"/>
+    <updated>2011-07-31T08:47:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/31/java-unit-testing</id>
+    <content type="html"><![CDATA[<p>I was digging around in a project I helped created for my intro Software Engineering class, and came across some useful helper methods I wrote for unit testing.</p>
+
+<p>These methods allow you to call private methods and get/set the values of private class variables. In order to call the private members, I needed to use reflection, which as you can see is horrible in Java. Luckily I was able to write the methods using generics so they can very easily be reused. The downside is that this code will not compile using the standard oracle Java 1.6 (see the <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6302954">bug report</a>). This bug was supposed to be fixed in Java 7, but I haven&rsquo;t tested it yet. In the mean time there is no problem compiling the code using the OpenJDK.</p>
+
+<p><div><script src='https://gist.github.com/1116726.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

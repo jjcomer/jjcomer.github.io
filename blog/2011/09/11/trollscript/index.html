@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Trollscript - The Blog of Josh Comer</title>
+  <meta name="author" content="Josh Comer">
+
+  
+  <meta name="description" content="Well, I haven&rsquo;t been doing much in the way of coding over the last couple weeks, but today that changed. I came across Tom Bell&rsquo;s ruby &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jjcomer.github.io/blog/2011/09/11/trollscript">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="The Blog of Josh Comer" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-372334-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">The Blog of Josh Comer</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jjcomer.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Trollscript</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-11T16:32:00-03:00" pubdate data-updated="true">Sep 11<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Well, I haven&rsquo;t been doing much in the way of coding over the last couple weeks, but today that changed. I came across <a href="https://github.com/tombell/trollscript">Tom Bell&rsquo;s ruby implementation</a> of a trollscript interpreter, and figured that the clojure community needs an interpreter too. A couple hours later and I had whipped up my first version of a <a href="https://github.com/jjcomer/trollscript">trollscript interpreter</a>.</p>
+
+<!--more-->
+
+
+<h2>So what is trollscript you might ask&hellip;</h2>
+
+<p>Trollscript is a dialect of brainfuck (and by dialect I mean the symbols have just been swapped). The following is the Hello World example from Tom Bell&rsquo;s site:</p>
+
+<pre><code>Trooloolooloolooloolooloolooloolollooooolooloolooloolooloolooooolooloolooloolooloolooloolooloooooloolooloooooloooloolooloololllllooooloololoooooololooolooloolooloolooloololoolooolooloololooooooloololooooloololooloolooloolooloolooloolooloolooloolooloololooooolooolooloololooollollollollollolllooollollollollollollollollloooooololooooolooll.
+</code></pre>
+
+<p>Which, as expected, produces:</p>
+
+<pre><code>Hello World
+</code></pre>
+
+<p>The language has a 30,000 (this is arbitrary) byte data array which is read and written to in a tape like manner. To make my space usage a little more efficient the data array is implemented as a hash, which will only grow as it is accessed.</p>
+
+<h2>The Commands</h2>
+
+<h3>Delimeters</h3>
+
+<ul>
+<li><strong>Tro</strong> all trollscripts begin with this</li>
+<li><strong>ll.</strong> all trollscripts end with this</li>
+</ul>
+
+
+<h3>Pointer movement</h3>
+
+<ul>
+<li><strong>ooo</strong> increments the data pointer</li>
+<li><strong>ool</strong> decrements the data pointer</li>
+<li><strong>olo</strong> increases the byte at the data pointer by one</li>
+<li><strong>oll</strong> decreases the byte at the data pointer by one</li>
+</ul>
+
+
+<h3>Input/Output</h3>
+
+<ul>
+<li><strong>loo</strong> output the char (byte) at the data pointer</li>
+<li><strong>lol</strong> input one byte and write the value to the byte under the data pointer</li>
+</ul>
+
+
+<h3>Control mechanisms</h3>
+
+<p>I implemented these as memoized functions, so they should be pretty quick.</p>
+
+<ul>
+<li><strong>llo</strong> if the byte under the data pointer is zero, increment the program counter to point to the instruction <em>after</em> the matching <strong>lll</strong></li>
+<li><strong>lll</strong> if the byte under the data pointer is non-zero, decrement the program counter to point to the instruction <em>after</em> the matching <strong>llo</strong></li>
+</ul>
+
+
+<h2>The Code</h2>
+
+<div><script src='https://gist.github.com/1210073.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Josh Comer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-11T16:32:00-03:00" pubdate data-updated="true">Sep 11<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/clojure/'>Clojure</a>, <a class='category' href='/blog/categories/trollscript/'>trollscript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://jjcomer.github.io/blog/2011/09/11/trollscript/" data-via="jjcomer" data-counturl="http://jjcomer.github.io/blog/2011/09/11/trollscript/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/08/19/honinbo/" title="Previous Post: Honinbo">&laquo; Honinbo</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/11/06/entity-oriented-programming/" title="Next Post: Entity Oriented Programming">Entity Oriented Programming &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/07/ordering-columns/">Ordering Columns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/02/clojure-talks/">Clojure Talks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/12/episode-2-drops/">Episode 2 Drops</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/24/clojure-game-engine/">Clojure Game Engine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/03/the-techsters/">The Techsters</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/jjcomer">@jjcomer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jjcomer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/111859646217609840955?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Josh Comer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'joshcomer';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jjcomer.github.io/blog/2011/09/11/trollscript/';
+        var disqus_url = 'http://jjcomer.github.io/blog/2011/09/11/trollscript/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

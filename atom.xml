@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[The Blog of Josh Comer]]></title>
+  <link href="http://jjcomer.github.io/atom.xml" rel="self"/>
+  <link href="http://jjcomer.github.io/"/>
+  <updated>2013-05-25T07:35:38-03:00</updated>
+  <id>http://jjcomer.github.io/</id>
+  <author>
+    <name><![CDATA[Josh Comer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ordering Columns]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/08/07/ordering-columns/"/>
+    <updated>2012-08-07T21:39:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/08/07/ordering-columns</id>
+    <content type="html"><![CDATA[<p>One of my favourite things about Clojure, is constantly discovering
+new, and usually shorter ways of re-writing code. An example I
+discovered today has to do with maintaining a particular ordering in
+a map. When creating html lists using hiccup one needs to make sure
+the columns of the table all line up. This can be difficult when
+using a map since the ordering of a map is not defined.</p>
+
+<p>Fear no longer, today I discovered <strong>sorted-map-by</strong>. This creates a
+map which maintains an order as defined by a comparator. So here is the easy way I came up with to keep a map in a
+particular ordering:</p>
+
+<div><script src='https://gist.github.com/3290950.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clojure Talks]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/08/02/clojure-talks/"/>
+    <updated>2012-08-02T05:53:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/08/02/clojure-talks</id>
+    <content type="html"><![CDATA[<p>It has been awhile since my last post, life has been quite busy (as
+ always). I thought that I should share some of the great Clojure
+ themed talks that I have been consuming in my down time.</p>
+
+<ul>
+<li><p><a href="http://www.infoq.com/presentations/clojure-runa-dynamic-pricing-through-DSLs">Dynamic Pricing through DSLs</a>
+This talk by Amit Rathore takes an great approach to DSLs. His
+company Runa uses a DSL to alleviate the pains of enterprise
+customisation&rsquo;s to their product.</p></li>
+<li><p><a href="http://www.infoq.com/presentations/Why-Prismatic-Goes-Faster-With-Clojure">Why Prismatic Goes Faster With Clojure</a>
+This talk shows that Clojure can be <em>FAST</em>. I wish these libraries
+were open-source so that I could get a look at their inner
+workings.</p></li>
+<li><p><a href="http://vimeo.com/45561411">Reducers &ndash; Rich Hickey</a>
+I saved the best for last. This is the best talk I have watched in
+awhile. Rich does a great job of walking through reducers and
+explaining why they are important. I keep meaning to download the
+Clojure 1.5 beta and try these out for myself. In the Clojure
+programming that I have done it seems that the majority of maps and
+filters are not order dependent and therefore could greatly benefit
+from the use of reducers.</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Episode 2 Drops]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/04/12/episode-2-drops/"/>
+    <updated>2012-04-12T16:12:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/04/12/episode-2-drops</id>
+    <content type="html"><![CDATA[<p>Finally, the moment over one month in the making, The Techsters
+Episode #2 is here!</p>
+
+<p>Have a listen <a href="http://thetechsters.tumblr.com/">here</a>.</p>
+
+<p>Enjoy.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Clojure Game Engine]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/03/24/clojure-game-engine/"/>
+    <updated>2012-03-24T13:17:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/03/24/clojure-game-engine</id>
+    <content type="html"><![CDATA[<p>I recently attended an undergraduate thesis presentation where one of
+the students created a javascript game engine from scratch. This got
+me to thinking, what would a Clojure game engine look like. I have
+played around with other Java gaming engines, such as
+<a href="http://slick.cokeandcode.com/">Slick</a>. Slick is a really easy engine
+to work with and lets you immediately focus on developing the game, not
+contorting the engine to work for your game. Since Slick is so great,
+why not just write a Clojure wrapper for it? The problem rests in
+Slick&rsquo;s heavy dependence on the OOP paradigm. A wrapper would end up
+causing the programmer to &ldquo;fight&rdquo; Clojure at every turn as we sneak
+objects and, even worse, mutability into the engine. My goal is to have a
+game engine which embraces the ideals of Clojure.</p>
+
+<p>The design which I have been building in my head is an entity-oriented
+engine (which I wrote about in a previous
+<a href="http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/">post</a>). A world
+reference will be a bag for all the entities in the game. Entities
+would only contain their state, and their categorizations. For example
+you could have a player entity, and also have an entity for each
+projectile currently alive in the game. An interesting idea would be
+to make each processor of entities a different thread. This would
+impose the problem of not being able to deterministically order their
+execution, but the idea of creating a game based on independent
+modules seems intriguing. My goal is to create a highly concurrent
+gaming engine. A cool resource to check out is Rich Hickey&rsquo;s famous
+<a href="https://gist.github.com/1494094">ant demo</a> which was used to demo
+Clojure&rsquo;s concurrency in the early days of the language. It is pretty mind blowing how much simulation
+is packed into so little code (the whole thing is 300 lines, with
+comments and license).</p>
+
+<p>The rendering and world updating will be done by two (maybe more)
+agents. Clojure&rsquo;s wonderful STM will trivially (maybe easy is the
+better terminology :)) allow these tasks to be
+independent. I haven&rsquo;t yet chosen what the renderer is going to be
+yet, but this will be a 2D engine, so for the minimal amount of effort
+it will probably end up being the
+<a href="http://www.lwjgl.org/">Light Weight Java Game Library</a>, which Slick
+uses underneath. The unfortunate part of this is that LWJGL requires
+the use of native libraries. An alternative option would be to also
+include Swing support, thus making the engine support cross platforms easily. I will
+have to research to see if the Canvas in Swing is performant enough.</p>
+
+<p>This is all just thought development now, but I have the whole summer
+ahead of me. Maybe this will make a good project :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Techsters]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/03/03/the-techsters/"/>
+    <updated>2012-03-03T17:51:00-04:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/03/03/the-techsters</id>
+    <content type="html"><![CDATA[<p>So a couple friend and I have decided to start a new podcast called
+&ldquo;The Techsters&rdquo;. The main focus of the podcast is to be an entertaining
+discussion on all things technology.</p>
+
+<p>You can check out our first episode here
+<a href="http://thetechsters.tumblr.com/">http://thetechsters.tumblr.com/</a></p>
+
+<p>Let us know what you think.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Median Finding and Incanter]]></title>
+    <link href="http://jjcomer.github.io/blog/2012/01/29/median-finding-and-incanter/"/>
+    <updated>2012-01-29T07:33:00-04:00</updated>
+    <id>http://jjcomer.github.io/blog/2012/01/29/median-finding-and-incanter</id>
+    <content type="html"><![CDATA[<p><em>Updated: made a mistake in the random algorithm… left out the random part :) all fixed now and the chart has been updated</em></p>
+
+<p>Last week we were going over some median finding algorithms in class. To be honest I had never thought of this problem before. In class (before the algorithms were revealed to us) I jumped to the naive approach of sorting the list then grabbing the middle. This is <strong>obviously</strong> going to have the complexity of sorting, with best case <em>O(nlogn)</em>.</p>
+
+<p>We were presented with two algorithms, one random (selection by partitioning) and the other deterministic (median of medians). Both end up averaging a complexity of <em>n</em>, but the random algorithm has a worst case of O(n<sup>2</sup>). The funny thing is that the random algorithm massively outperforms the deterministic version. This is always an iterating situation, when the theoretically better solution ends up performing (when implemented) far worse than the theoretically worse solution.</p>
+
+<p>Lets see how much worse the deterministic algorithm performs. I created an implementation of both algorithms:</p>
+
+<div><script src='https://gist.github.com/1698459.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Conveniently both algorithms have the same core, and the only difference between them is how they determine their pivot value. As the name suggests in the random algorithm, the pivot is chosen at random. In the deterministic version, the pivot is chosen to be the median of medians. Finding the median of medians is interesting as the recursions are intertwined, the median finding algorithm is called by the median finding function.</p>
+
+<p>There are also some laziness optimizations sneaking in here as well. In the core, only the &ldquo;less than&rdquo; partition is fully realized. The &ldquo;greater than&rdquo; partition is only calculated when required, which is only when the median exists within.</p>
+
+<p>Alright, so now I got to take my first attempt at using <a href="http://incanter.org/">Incanter</a>, the R-type library for Clojure. Incanter was really easy to use and I found the documentation to be very verbose (in a good way) and well written.</p>
+
+<p>This is the analysis code I whipped up:</p>
+
+<div><script src='https://gist.github.com/1698492.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Which I used to produce the following chart:</p>
+
+<p><img src="http://jjcomer.github.io/images/MedianGraph.png"></p>
+
+<p>Due to some strange &ldquo;features&rdquo; in Incanter, you have to jump through some hoops to get the groups to label correctly, so I left the legend off the chart. The blue points are the deterministic algorithm&rsquo;s results and the red points are the random algorithm&rsquo;s results. As you can clearly see from the graph, the random algorithm outperformed the deterministic one by at least one metric bunch.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Entity Oriented Programming]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming/"/>
+    <updated>2011-11-06T12:02:00-04:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/11/06/entity-oriented-programming</id>
+    <content type="html"><![CDATA[<p>A few friends and I have undertaken a game project, and I get to be in charge of the technical side of things. I immediately thought of using Clojure (since it is only the best language ever), but changed my mind as my main criteria was a easy to use game engine (I&rsquo;m lazy). I ended up choosing to use the <a href="http://slick.cokeandcode.com/">Slick</a> engine which is java-based. To supplement this Slick engine I have decided to use an entity based approach to programming the game. <a href="http://gamadu.com/artemis/">Artemis</a> is an entity framework which was originally designed for use with Slick, but since it has no dependencies, could be used with anything.</p>
+
+<p>The Artemis framework is based on a series of blog posts from <a href="http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/">T=Machine</a>. The <strong>TL;DR</strong> of these blog posts is that an entity system in a gaming environment is very extensible and can be parallelised (the articles revolve around PS3 development, which needs done concurrently to take advantage of the hardware). Whilst I don&rsquo;t have any immediate needs to delve into concurrent game development, this approach has a real functional smell to it (reminiscent to that of fresh baked bread),  so it must be a good thing.</p>
+
+<!--more-->
+
+
+<p>All right lets look at what this really means:</p>
+
+<h3>What is an entity?</h3>
+
+<p>At the heart of things an entity is just a GUID (or UUID) which is stored in a <em>world</em> object. The world is a global, unique (there can be multiple worlds, but they probably shouldn&rsquo;t talk to each other (queue some sort of parallel universe analogy)), repository of entities. Each entity is composed of components.</p>
+
+<h3>What is a component?</h3>
+
+<p>A component represents a set of data which relates to a part of an entity. Components are not to have any logic inside of them, except for getters and setters for their fields. Components would represents the state of the entity, things like:</p>
+
+<ul>
+<li>Transform (this is the x and y co-ordinates of the entity)</li>
+<li>Spacial (this would be the image that represents the entity)</li>
+<li>Inventory</li>
+</ul>
+
+
+<p>Components do not communicate directly with each other, communication/interaction is done using system.</p>
+
+<h3>What is a system?</h3>
+
+<p>The world is composed of entities (which are composed of components) and systems. Systems are responsible for processing entities. An example would be a Collision System, which would process each entity which has a Transform component to see if it collides with another entity in the universe. When processing the entities are treated in a very abstract manner. The System specifies a filter (of components) for the entities it will handle, and then generically processes the result. Logic for how these interactions take place is implemented in the system (for example if a player collides with an enemy then damage should be applied), but if possible this should be implemented in the most generic way possible.</p>
+
+<h3>What happens in the game loop?</h3>
+
+<p>The heartbeat of a game is the game loop. Now using the entity model, during the update and render phases, one only needs to trigger the processing of the appropriate systems and the entities of the world will be updated and drawn.</p>
+
+<p>Now all I have to do is write the game ;)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Trollscript]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/09/11/trollscript/"/>
+    <updated>2011-09-11T16:32:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/09/11/trollscript</id>
+    <content type="html"><![CDATA[<p>Well, I haven&rsquo;t been doing much in the way of coding over the last couple weeks, but today that changed. I came across <a href="https://github.com/tombell/trollscript">Tom Bell&rsquo;s ruby implementation</a> of a trollscript interpreter, and figured that the clojure community needs an interpreter too. A couple hours later and I had whipped up my first version of a <a href="https://github.com/jjcomer/trollscript">trollscript interpreter</a>.</p>
+
+<!--more-->
+
+
+<h2>So what is trollscript you might ask&hellip;</h2>
+
+<p>Trollscript is a dialect of brainfuck (and by dialect I mean the symbols have just been swapped). The following is the Hello World example from Tom Bell&rsquo;s site:</p>
+
+<pre><code>Trooloolooloolooloolooloolooloolollooooolooloolooloolooloolooooolooloolooloolooloolooloolooloooooloolooloooooloooloolooloololllllooooloololoooooololooolooloolooloolooloololoolooolooloololooooooloololooooloololooloolooloolooloolooloolooloolooloolooloololooooolooolooloololooollollollollollolllooollollollollollollollollloooooololooooolooll.
+</code></pre>
+
+<p>Which, as expected, produces:</p>
+
+<pre><code>Hello World
+</code></pre>
+
+<p>The language has a 30,000 (this is arbitrary) byte data array which is read and written to in a tape like manner. To make my space usage a little more efficient the data array is implemented as a hash, which will only grow as it is accessed.</p>
+
+<h2>The Commands</h2>
+
+<h3>Delimeters</h3>
+
+<ul>
+<li><strong>Tro</strong> all trollscripts begin with this</li>
+<li><strong>ll.</strong> all trollscripts end with this</li>
+</ul>
+
+
+<h3>Pointer movement</h3>
+
+<ul>
+<li><strong>ooo</strong> increments the data pointer</li>
+<li><strong>ool</strong> decrements the data pointer</li>
+<li><strong>olo</strong> increases the byte at the data pointer by one</li>
+<li><strong>oll</strong> decreases the byte at the data pointer by one</li>
+</ul>
+
+
+<h3>Input/Output</h3>
+
+<ul>
+<li><strong>loo</strong> output the char (byte) at the data pointer</li>
+<li><strong>lol</strong> input one byte and write the value to the byte under the data pointer</li>
+</ul>
+
+
+<h3>Control mechanisms</h3>
+
+<p>I implemented these as memoized functions, so they should be pretty quick.</p>
+
+<ul>
+<li><strong>llo</strong> if the byte under the data pointer is zero, increment the program counter to point to the instruction <em>after</em> the matching <strong>lll</strong></li>
+<li><strong>lll</strong> if the byte under the data pointer is non-zero, decrement the program counter to point to the instruction <em>after</em> the matching <strong>llo</strong></li>
+</ul>
+
+
+<h2>The Code</h2>
+
+<div><script src='https://gist.github.com/1210073.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Honinbo]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/08/19/honinbo/"/>
+    <updated>2011-08-19T23:00:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/08/19/honinbo</id>
+    <content type="html"><![CDATA[<p>Now that TodoClj is done (unless I come up with some new features), it is time for a new project. A while ago a friend and I started messing around with the game of Go.
+It quickly became apparent that there are no good Go clients out there. The ones that do exist are extremely old, and either do not run on modern hardware, or are almost completely unusable. So the first step in creating a bearable Go client is to make an easy to use wrapper for the gnuGo client. By interfacing with gnuGo, one gets all the rule enforcement and AI for free.</p>
+
+<p>I have decided to name my wrapper after one of the first (<em>founded in 1612</em>) Go houses in Japan, <a href="http://en.wikipedia.org/wiki/Honinbo">Honinbo</a>. This should be a good chance for me to practice some meta-programming as the interface with gnuGo will take place using the Go Text Protocol (GTP).</p>
+
+<p>As always, the source is checked into GitHub <a href="https://github.com/jjcomer/honinbo">here</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TodoClj 1.0.0 Is Done]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/08/09/todoclj-1-0-0-is-done/"/>
+    <updated>2011-08-09T21:14:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/08/09/todoclj-1-0-0-is-done</id>
+    <content type="html"><![CDATA[<p>I have finished the first version of <a href="https://github.com/jjcomer/TodoClj">TodoClj</a>. Please check it out. Note that I have put almost no error checking into the parser, therefore things will crash if not perfect. Windows users should compile from source (to get version 1.0.1) since the ANSI codes used to colour the output do not render and the new version prevents colour from being rendered when run on Windows. If you have lein installed compiling is as easy as:</p>
+
+<pre><code>lein uberjar
+</code></pre>
+
+<!--more-->
+
+
+<h2>Usage</h2>
+
+<p>Usage pretty much emulates Todo.txt. The following commands assume you have created a batch/shell script called <em>Todo</em>.</p>
+
+<h3>Batch File</h3>
+
+<pre><code>@echo off
+java -jar TodoClj.jar %*
+</code></pre>
+
+<h3>Add task</h3>
+
+<pre><code>$ Todo add "My new task"
+TODO: 'My new task' added on line 1
+</code></pre>
+
+<p>You can also define projects (+) and contexts (@) within a task by prefixing words with the corresponding symbol</p>
+
+<h3>List task</h3>
+
+<pre><code>$ Todo ls
+002:    Another task
+001:    My new task
+</code></pre>
+
+<p>You can also filter by adding the projects and/or contexts you wish to filter the list on</p>
+
+<pre><code>$ Todo ls +myProject @someContext +anotherContext
+</code></pre>
+
+<h3>Complete a task</h3>
+
+<pre><code>$ Todo do 1
+$ Todo ls
+002:    Another task
+001:    X   My new task
+</code></pre>
+
+<h3>Add priority</h3>
+
+<pre><code>$ Todo pri 2 A
+$ Todo ls
+002:    (A) Another task
+001:    X    My new task
+</code></pre>
+
+<p>Priorities can range from A-Z</p>
+
+<h3>Filter on priority</h3>
+
+<pre><code>$ Todo lsp A
+002:    (A) Another task
+</code></pre>
+
+<h3>Remove priority</h3>
+
+<pre><code>$ Todo depri 2
+$ Todo ls
+002:    Another task
+001:    X   My new task
+</code></pre>
+
+<h3>Remove completed tasks</h3>
+
+<pre><code>$ Todo clean
+$ Todo ls
+001:    Another task
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My First Clojure Library]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/08/06/my-first-clojure-library/"/>
+    <updated>2011-08-06T07:56:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/08/06/my-first-clojure-library</id>
+    <content type="html"><![CDATA[<p>I just pushed my first Clojure library to <a href="https://clojars.org/cljcolour">CloJars</a> called <a href="https://github.com/jjcomer/cljcolour">cljcolour</a>. In my attempt to emulate Todo.txt, I needed the ability to colour my terminal output. Apparently there is no built in way to do this (I&rsquo;m not even sure if there is an easy way to do this in Java). A little googling later and I found ANSI escape characters for colouring text, and they are disgusting. With cljcolour it is now easy to add both fore and background colour to your text output.</p>
+
+<p>I have only tested this on my mac, so no guarantees when it comes to windows. I have also noticed that the REPL will only apply one colour (either the fore or the background) to your string. Both colours do work when running your application from the command line.</p>
+
+<h3>Usage</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='clojure'><span class='line'><span class="c1">;Probably the easiest usage is to create painters</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">bee-painter</span> <span class="p">(</span><span class="nf">create-painter</span> <span class="nv">black</span> <span class="nv">yellow</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="nf">bee-painter</span> <span class="s">&quot;Hello World&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">;You can also define fore and background combinations</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">bee-colour</span> <span class="p">(</span><span class="nf">create-new-colour</span> <span class="nv">black</span> <span class="nv">yellow</span><span class="p">))</span>
+</span><span class='line'><span class="p">(</span><span class="k">def </span><span class="nv">bee-painter2</span> <span class="p">(</span><span class="nf">create-painter</span> <span class="nv">bee-colour</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<h3>The Code</h3>
+
+<div><script src='https://gist.github.com/1128886.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Who Needs an Object When You Have a Map?]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/08/04/who-needs-an-object-when-you-have-a-map/"/>
+    <updated>2011-08-04T20:49:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/08/04/who-needs-an-object-when-you-have-a-map</id>
+    <content type="html"><![CDATA[<p>I had been thinking about the parsing code I initially written for <a href="http://jjcomer.github.com/TodoClj">TodoClj</a> I remembered that I had initially set out to mimics <a href="https://github.com/ginatrapani/todo.txt-cli">Todo.txt</a>, so I have reoriented and now I am parsing the same format accepted by Todo.txt.</p>
+
+<p>File /home/josh/code/octopress/source/downloads/code/Clojure/coreV2.clj could not be found</p>
+
+<p>I feel that I am getting more and more comfortable with using clojure. I have stopped using Eclipse and instead use Sublime Text 2 and the REPL provided by lein for my project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Found Some Time to File Parse]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/08/02/found-some-time-to-file-parse/"/>
+    <updated>2011-08-02T21:22:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/08/02/found-some-time-to-file-parse</id>
+    <content type="html"><![CDATA[<p>I was able to find some time tonight to do a little programming. The following code snippit will parse the Todo.txt file. I kept the structure of the file down to a minimum.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>T The First Task
+</span><span class='line'>D and The Second Task</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first letter of the line will represent the status of the task (<em>T</em> being still Todo and <em>D</em> being Done). The code will read the entire file in and &ldquo;hackishly&rdquo; convert the line in to a vector. The first item is assumed to be either a <em>T</em> or a <em>D</em> and the remainder of the vector is the description, and is interposed with spaces to be a readable string.
+File /home/josh/code/octopress/source/downloads/code/Clojure/coreV1.clj could not be found</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Java Unit Testing]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/31/java-unit-testing/"/>
+    <updated>2011-07-31T08:47:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/31/java-unit-testing</id>
+    <content type="html"><![CDATA[<p>I was digging around in a project I helped created for my intro Software Engineering class, and came across some useful helper methods I wrote for unit testing.</p>
+
+<p>These methods allow you to call private methods and get/set the values of private class variables. In order to call the private members, I needed to use reflection, which as you can see is horrible in Java. Luckily I was able to write the methods using generics so they can very easily be reused. The downside is that this code will not compile using the standard oracle Java 1.6 (see the <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6302954">bug report</a>). This bug was supposed to be fixed in Java 7, but I haven&rsquo;t tested it yet. In the mean time there is no problem compiling the code using the OpenJDK.</p>
+
+<div><script src='https://gist.github.com/1116726.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Now With More State]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/30/now-with-more-state/"/>
+    <updated>2011-07-30T21:44:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/30/now-with-more-state</id>
+    <content type="html"><![CDATA[<p>So I managed to sit down tonight and add state passing to the state machine. It now appears to be time to add support for doing <strong>actual</strong> things.</p>
+
+<p>As I was writing the <em>init</em> function I was questioning what options will truly be required. I may want to cache the file contents in memory, which can be kept in the state hash. We shall see!</p>
+
+<div><script src='https://gist.github.com/1116199.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Hopefully tomorrow I will have some time to sit down and add in at least the create.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[There Has to Be State]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/30/there-has-to-be-state/"/>
+    <updated>2011-07-30T15:33:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/30/there-has-to-be-state</id>
+    <content type="html"><![CDATA[<p>It occurred to me after I posted the prototype state machine that I had missed an important piece, State. I know that state is a naughty word when discussing functional languages, but an application must have a state. The bad taste surrounding state in functional languages is in reference to mutability of variables, as opposed to the application remembering which file it is acting upon.</p>
+
+<p>It should be completely possible to enclose the current state of the application into a parameter for the state machine. Each action method will accept and return the state of the application stored in a hash. I will post a prototype of said functionality later tonight, assuming I don&rsquo;t get too distracted or see a shiny object.</p>
+
+<p>I have also created the first draft of the state machine (in diagram form).
+<img src="http://jjcomer.github.io/images/TodoStateMachine.png"></p>
+
+<p>On a side note, it is hard to find a good free diagramming tool. After trying out a couple I ended up settling on <a href="http://docs.google.com">Google Docs</a> and the Draw tool. I had pretty much endless storage, could make drawings as large as I wanted, and could export into all sorts of formats.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tail Recursive State Machines]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/28/tail-recursive-state-machines/"/>
+    <updated>2011-07-28T20:21:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/28/tail-recursive-state-machines</id>
+    <content type="html"><![CDATA[<p>I was reading an article the other day which stated that a great method to use when learning a new language is to imitate software that you already use. In my attempt to fully grok Clojure I have decided to start small and imitate <a href="http://todotxt.com/">todo.txt</a></p>
+
+<p>The first hurdle I always face when starting a new language is determining the basic architecture pattern to follow when writing an application. For some reason this is a topic which is not widely discussed or written about. Some languages, such as Objectuve-C,have a prescribed architecture which you are to follow, thereby making my difficulties moot. But clojure and the majority of other languages do not have this benefit. We are left to discover these patterns by ourselves.</p>
+
+<p>Perhaps the intension is that one is supposed to trail and error and determine what works the best for themselves. Maybe the idea is that each application is different enough that there cannot be a default application pattern for a language. Web development seems to alleviate this problem by not dictating the pattern to the language, but instead to the framework with which one constructs their site.</p>
+
+<p>So, in light of this I am attempting to formulate an application pattern which I think will work with my thought patterns. I am intrigued by the concept of creating applications around the state machine model. The following code is a quick prototype I whipped up.</p>
+
+<div><script src='https://gist.github.com/1115436.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p> The program loop represents the state machine which is the program. The looping is done with the trampoline command, which allows for tail-recursion optimization. This should be an easily extensible model. If states need to pass parameters, the parameters should be returned by the action function (action functions such as displayMenu) and then enclosed in the returning function. The only thing I am not overly happy with is the potential size of the program loop, but this should be something I can improve upon.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://jjcomer.github.io/blog/2011/07/27/hello-world/"/>
+    <updated>2011-07-27T06:57:00-03:00</updated>
+    <id>http://jjcomer.github.io/blog/2011/07/27/hello-world</id>
+    <content type="html"><![CDATA[<h2>The first post of yet another blog.</h2>
+
+<p>My mid-year resolution is to actively post here, both about things of current interest and about coding. I have become too passive in my voice as a programmer. So bring on the programming and lets see what happens.</p>
+]]></content>
+  </entry>
+  
+</feed>
