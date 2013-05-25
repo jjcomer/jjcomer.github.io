@@ -1,0 +1,16 @@
+---
+layout: post
+title: "Honinbo"
+date: 2011-08-19 23:00
+comments: true
+categories: 
+- Clojure
+- gnuGo
+- honinbo
+---
+Now that TodoClj is done (unless I come up with some new features), it is time for a new project. A while ago a friend and I started messing around with the game of Go.
+It quickly became apparent that there are no good Go clients out there. The ones that do exist are extremely old, and either do not run on modern hardware, or are almost completely unusable. So the first step in creating a bearable Go client is to make an easy to use wrapper for the gnuGo client. By interfacing with gnuGo, one gets all the rule enforcement and AI for free.
+
+I have decided to name my wrapper after one of the first (*founded in 1612*) Go houses in Japan, [Honinbo](http://en.wikipedia.org/wiki/Honinbo). This should be a good chance for me to practice some meta-programming as the interface with gnuGo will take place using the Go Text Protocol (GTP).
+
+As always, the source is checked into GitHub [here](https://github.com/jjcomer/honinbo)
