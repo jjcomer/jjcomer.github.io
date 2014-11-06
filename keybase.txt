@@ -1,0 +1,70 @@
+==================================================================
+https://keybase.io/jjcomer
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://jjcomer.github.io
+  * I am jjcomer (https://keybase.io/jjcomer) on keybase.
+  * I have a public key with fingerprint 951D BB52 4253 4B41 E48F  00BD 8FB0 6166 F8A9 582F
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "951dbb5242534b41e48f00bd8fb06166f8a9582f",
+            "host": "keybase.io",
+            "key_id": "8fb06166f8a9582f",
+            "uid": "455d4c69cb95b5c132e1d26e5c26a300",
+            "username": "jjcomer"
+        },
+        "service": {
+            "hostname": "jjcomer.github.io",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1415280779,
+    "expire_in": 157680000,
+    "prev": "b91735ce062ead92d6de692f789057720e0080b1bb5869d0d6f54edf189f0a96",
+    "seqno": 27,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v1.1.3
+Comment: https://keybase.io/crypto
+
+yML5AnicO8LLzMDF2L8hMe3Hygh9xtMHvpcyhERXdFcrJeWnVCpZVStlp4KptMy8
+9NSigqLMvBIlKyVLU8OUpCRTIxMjU2OTJBPDVBOLNAODpBSLtCQDM0MzszSLREtT
+C6M0JR2ljPxikA6gMUmJxal6mflAMSAnPjMFKIpFfSlYwsTUNMUk2cwyOcnSNMk0
+2dDYKNUwxcgs1TTZyCzR2MAApLA4tSgvMTcVqDorKzk/N7VIqVZHCShYlpmcCnIy
+yGZUBXrpmSUZpUkQRxQU5ZfkJ+fnAKUzSkoKiq1A2ksqC0Dqy1OT4qEmxSdl5qUA
+PQ/UUZZaVJyZn6dkZQhUmVySCTLa0MTQ1MjCwNzcUkcptaIgsyg1PhOkwtTczMIA
+CED2pJYBjUyyNDQ3Nk1ONTAzSk1MsTRKMUtJNbM0SjO3sDQwNTc3Mkg1MLAwSDIE
+BquFmWWKQYpZmqlJakqaoYVlmkGipZkSyG+FeflKVkbmQHcmpgPNLM5Mz0ssKS1K
+Vao9dDCGhYGRi4GNlQkUfwxcnAKwWP1wjP+vmLreseub3zmddjGcvyrlVqiqQaqc
+t2v+0Qszk+a175nsO6fk8putV7lTLvjszeEryNR98Mf8bYdRWI7JRb1ZUpf0BSKc
+5zTLpJ7wdNV8ukinl8OluGRBYx7/D8N1Vu+DzKfou0/wPB9+zcCkbnPVnOJiyew7
+rx7F7dCI++brdX4L652twlfjjqhZHJY9yKbT1a7RwbVtSq61zswy8wd2TXpbw8+t
+/PGn6LFH/P2u25VaZ5+tuSGn6Xsl87zh3gP9st7irlMn14aZTYhwvCbbku5nG9W3
+c5rC4k/Xnp07xVl2/ukEJ5m9Oktssn5uMWC+cOaR+rS2tAe/oh+3nOnievq25+u6
+SbW+a+SXbcyfq7D11zWWes6kjQvjl/+L3Kt3T/ocz7tPjAvdvSNnmd/mu/XoMENA
+a3xfgvBXwQk/jGRdVTXDeVeyn430mBJUaiTK1+R8aUO8TnO47tccZ/2+6b4vjQOO
+qveFXvz+VkN69tH6q1JstSuzkm7bnmSL+pMeKBP2PuCS0uyVbKsmma5Pc7e/5XtD
+/5TJgccx2eveMO6/sfTV8qkyv7Z+/qjvwhtWWXhM68Y98dtrrkmnS0tPbZv+3/ai
+d0nC7czdaRv31jGFJxxwl5VJ/sDC/25L8sffdStvXt55+P7c/Ng9m4U4V/wTW8Y0
+afPOF9WyKmv2P2CfoOH98zzrJolDbd3CSx8pf5hmUCS/JMHm6jtJAGKolD8=
+=O66a
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/jjcomer
+
+==================================================================
